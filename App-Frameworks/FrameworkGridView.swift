@@ -13,34 +13,36 @@ struct FrameworkGridView: View {
                                GridItem(.flexible()),
     ]
     var body: some View {
-        LazyVGrid(columns: columns){
-            FrameworkTitleView(image:"app-clip", name: "App Clip")
-            FrameworkTitleView(image:"app-clip", name: "App Clip")
-            FrameworkTitleView(image:"app-clip", name: "App Clip")
-            FrameworkTitleView(image:"app-clip", name: "App Clip")
-            FrameworkTitleView(image:"app-clip", name: "App Clip")
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns){
+                    ForEach(MockData.frameworks) { framework in
+                        FrameworkTitleView(framework: framework)
+                    }
+                }
+            }.navigationTitle("🍎 Frameworks")
         }
-       
     }
 }
 
 struct FrameworkTitleView: View {
-    let image: String
-    let name: String
+    let framework: Framework
+    
     var body: some View {
         VStack {
-            Image(image)
+            Image(framework.imageName)
                 .resizable()
                 .frame(width: 90, height: 90)
-            Text(name)
+            Text(framework.name)
                 .font(.title2)
                 .fontWeight(.semibold)
                 .scaledToFit()
                 .minimumScaleFactor(0.6)
-        }
+        }.padding()
     }
 }
 
 #Preview {
     FrameworkGridView()
+        .preferredColorScheme(.dark)
 }
